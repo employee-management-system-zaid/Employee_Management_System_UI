@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Signup.module.css";
+import Header from "../Header/Header";
 
 function Signup() {
   const path = useNavigate();
@@ -76,60 +77,64 @@ function Signup() {
   }
 
   return (
-    <div id={styles.mainDiv}>
-      <div id={styles.mainContainer}>
-        <h1>Sign Up</h1>
-        <form onSubmit={submit} id={`signUp`}>
-          <label htmlFor="fullName">Full Name</label>
-          <input
-            type="text"
-            onChange={(e) => setFullName(e.target.value)}
-            name="fullName"
-            id="fullName"
-            value={fullName}
-          />
-          {formErrors.fullName && (
-            <p className={styles.errorMsg}>{formErrors.fullName}</p>
-          )}
-          <label htmlFor="email">Email address</label>
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            id="email"
-            value={email}
-          />
-          {formErrors.email && (
-            <p className={styles.errorMsg}>{formErrors.email}</p>
-          )}
-          <label htmlFor="phoneNumber">Phone Number</label>
-          <input
-            type="number"
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            name="phoneNumber"
-            id="phoneNumber"
-            value={phoneNumber}
-          />
-          {formErrors.phoneNumber && (
-            <p className={styles.errorMsg}>{formErrors.phoneNumber}</p>
-          )}
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            name="password"
-            value={password}
-          />
-          {formErrors.password && (
-            <p className={styles.errorMsg}>{formErrors.password}</p>
-          )}
-          <input type="submit" value="Signup" />
-        </form>
-        <div id={styles.loginLink}>
-          <Link to="/login">Already have an Account. Click here to Login </Link>
+    <>
+      <div id={styles.mainDiv}>
+        <div id={styles.mainContainer}>
+          <h1>Sign Up</h1>
+          <form onSubmit={submit} id={`signUp`}>
+            <label htmlFor="fullName">Full Name</label>
+            <input
+              type="text"
+              onChange={(e) => setFullName(e.target.value)}
+              name="fullName"
+              id="fullName"
+              value={fullName}
+            />
+            {formErrors.fullName && (
+              <p className={styles.errorMsg}>{formErrors.fullName}</p>
+            )}
+            <label htmlFor="email">Email address</label>
+            <input
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              id="email"
+              value={email}
+            />
+            {formErrors.email && (
+              <p className={styles.errorMsg}>{formErrors.email}</p>
+            )}
+            <label htmlFor="phoneNumber">Phone Number</label>
+            <input
+              type="number"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              name="phoneNumber"
+              id="phoneNumber"
+              value={phoneNumber}
+            />
+            {formErrors.phoneNumber && (
+              <p className={styles.errorMsg}>{formErrors.phoneNumber}</p>
+            )}
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={password}
+            />
+            {formErrors.password && (
+              <p className={styles.errorMsg}>{formErrors.password}</p>
+            )}
+            <input type="submit" value="Signup" />
+          </form>
+          <div id={styles.loginLink}>
+            <Link to="/login">
+              Already have an Account. Click here to Login{" "}
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

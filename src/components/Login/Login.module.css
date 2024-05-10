@@ -26,13 +26,18 @@
 #mainContainer input[type="submit"] {
   margin-top: 10px;
   padding: 10px 15px;
-  background-color: #1b365d;
-  color: white;
+  background-color: #d0d3d4;
+  color: #000;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+#mainContainer input[type="submit"]:hover {
+  background-color: #000;
+  color: #d0d3d4;
 }
 
 #mainContainer p {
@@ -56,5 +61,5 @@
 }
 
 #signLink a {
-  color: #1b365d;
+  color: #000;
 }

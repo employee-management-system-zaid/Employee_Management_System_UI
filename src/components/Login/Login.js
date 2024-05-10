@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Login.module.css";
+import Header from "../Header/Header";
 
 function Login() {
   const path = useNavigate();
@@ -53,37 +54,41 @@ function Login() {
   }
 
   return (
-    <div className="d-flex mt-4 justify-content-center align-items-center">
-      <div id={styles.mainContainer}>
-        <form onSubmit={submit} id={`login`}>
-          <label htmlFor="email">Email address</label>
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            id="email"
-            value={email}
-          />
-          {formErrors.email && (
-            <p className={styles.errorMsg}>{formErrors.email}</p>
-          )}
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            name="password"
-            value={password}
-          />
-          {formErrors.password && (
-            <p className={styles.errorMsg}>{formErrors.password}</p>
-          )}
-          <input type="submit" value="Login" />
-        </form>
-        <div id={styles.signLink}>
-          <Link to="/signup">Don't have an Account. Click here to Signup </Link>
+    <>
+      <div className="d-flex mt-4 justify-content-center align-items-center">
+        <div id={styles.mainContainer}>
+          <form onSubmit={submit} id={`login`}>
+            <label htmlFor="email">Email address</label>
+            <input
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              id="email"
+              value={email}
+            />
+            {formErrors.email && (
+              <p className={styles.errorMsg}>{formErrors.email}</p>
+            )}
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={password}
+            />
+            {formErrors.password && (
+              <p className={styles.errorMsg}>{formErrors.password}</p>
+            )}
+            <input type="submit" value="Login" />
+          </form>
+          <div id={styles.signLink}>
+            <Link to="/signup">
+              Don't have an Account. Click here to Signup{" "}
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

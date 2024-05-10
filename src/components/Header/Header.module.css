@@ -1,0 +1,28 @@
+.headerContainer {
+  background-color: #d0d3d4;
+  padding: 5px;
+}
+
+.navList {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+.navItem {
+  margin-right: 20px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #000;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
+.navLink:hover {
+  background-color: #000;
+  color: #d0d3d4;
+}

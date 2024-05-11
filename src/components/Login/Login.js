@@ -39,12 +39,17 @@ function Login() {
 
       try {
         const response = await axios.post(`/login`, userCredentials);
-        if (response.data.message === "Incorrect password") {
+        if (response.data.message === "Invalid Credentials") {
           alert("Invalid Credentials");
-        } else if (response.data.message === "User not found") {
-          alert("User does not exist");
+        } else if (response.data.message === "Employee not found") {
+          alert("Employee does not exist with this Email");
         } else if (response.data.userData) {
-          path("/");
+          console.log(response.data.userData);
+          if (response.data.userData.userType === "Admin") {
+            path("/", { state: response.data.userData.userType }); // passing the data as well to check for the userType
+          } else {
+            path("/employeeHome", { state: response.data.userData.userType });
+          }
         }
       } catch (error) {
         console.error("Error:", error);

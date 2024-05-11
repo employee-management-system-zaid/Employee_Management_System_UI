@@ -10,6 +10,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [userType, setUserType] = useState("Employee");
   const [formErrors, setFormErrors] = useState({});
 
   const validateForm = () => {
@@ -58,15 +59,16 @@ function Signup() {
         email,
         password,
         phoneNumber,
+        userType,
       };
 
       try {
         const response = await axios.post("/signup", userData);
 
-        if (response.data === "User Exists") {
+        if (response.data === "Employee Already Exists") {
           clearData();
-          alert("User already Exits");
-        } else if (response.data === "User Does Not Exist") {
+          alert("Employee Already Exists");
+        } else if (response.data === "Employee created successfully") {
           path("/login");
         }
       } catch (error) {

@@ -8,7 +8,7 @@ function Home() {
   const path = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isEmployee, setIsEmployee] = useState(false);
+  const [isEmployee, setIsEmployee] = useState(true);
   const [reload, setReload] = useState(false);
   const { state } = useLocation(); // to get the data passed while logging in
 
@@ -22,10 +22,13 @@ function Home() {
         } else if (response.data.message === "No Employees") {
           setLoading(false);
         } else if (response.data.employees) {
+          console.log("No of employees ", response.data.employees);
           setEmployees(response.data.employees);
           console.log(response.data.employees);
           setLoading(false);
-          setIsEmployee(true);
+          if (response.data.employees.length <= 0) {
+            setIsEmployee(false);
+          }
         }
       } catch (error) {
         console.error("Error:", error);
@@ -37,6 +40,10 @@ function Home() {
 
   const handleEdit = (item) => {
     path("/editEmployee", { state: item });
+  };
+
+  const handleView = (item) => {
+    path("/viewEmployee", { state: item });
   };
 
   const handleDelete = async (id) => {
@@ -68,17 +75,15 @@ function Home() {
             {!isEmployee && <h5>No Employees to display</h5>}
             {isEmployee && (
               <table className={`table table-bordered ${styles.customTable}`}>
-                <thead>
+                <thead className="thead-dark">
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
-                    <th>Age</th>
-                    <th>Date of Joining</th>
                     <th>Title</th>
                     <th>Department</th>
                     <th>Employee Type</th>
-                    <th>Employee Type</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -89,14 +94,12 @@ function Home() {
                       </td>
                       <td>{item.email}</td>
                       <td>{item.phoneNumber}</td>
-                      <td>{item.age}</td>
-                      <td>{item.dateOfJoining}</td>
                       <td>{item.title}</td>
                       <td>{item.department}</td>
                       <td>{item.employeeType}</td>
                       <td>
                         <button
-                          className="btn btn-outline-dark"
+                          className="btn btn-outline-dark mr-2"
                           onClick={() => handleEdit(item)}
                         >
                           Edit
@@ -106,6 +109,12 @@ function Home() {
                           onClick={() => handleDelete(item._id)}
                         >
                           Delete
+                        </button>
+                        <button
+                          className="btn btn-outline-danger"
+                          onClick={() => handleView(item)}
+                        >
+                          View
                         </button>
                       </td>
                     </tr>

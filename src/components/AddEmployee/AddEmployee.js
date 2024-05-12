@@ -110,7 +110,7 @@ export default function AddEmployee() {
   };
 
   const handleCancel = () => {
-    path("/");
+    path("/", { state: state });
   };
 
   async function submit(e) {
@@ -137,7 +137,7 @@ export default function AddEmployee() {
           clearData();
           alert("Employee already Exits");
         } else if (response.data === "Employee Added successfully") {
-          path("/login");
+          path("/", { state: state });
         }
       } catch (error) {
         console.error("Error:", error);
@@ -311,7 +311,7 @@ export default function AddEmployee() {
             <div className={`text-center ${styles.buttonGroup}`}>
               <input
                 type="submit"
-                value="Save"
+                value="Create"
                 className={`btn btn-outline-primary ${styles.saveButton}`}
               />
               <button

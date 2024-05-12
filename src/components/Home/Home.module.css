@@ -1,0 +1,18 @@
+/* Home.module.css */
+
+/* Custom styles for table headers */
+.customTable th {
+  text-align: center;
+}
+
+/* Custom styles for table rows */
+.customTable td {
+  text-align: center;
+}
+
+/* Custom styles for "No Employees to display" message */
+.customTable h5 {
+  color: #555;
+  text-align: center;
+  margin-top: 20px;
+}

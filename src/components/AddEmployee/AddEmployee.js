@@ -110,7 +110,7 @@ export default function AddEmployee() {
   };
 
   const handleCancel = () => {
-    path("/", { state: state });
+    path("/", { state: "Admin" });
   };
 
   async function submit(e) {
@@ -146,7 +146,7 @@ export default function AddEmployee() {
     }
   }
   return (
-    <div>
+    <>
       {!openOnlyAdminDialog && (
         <div>
           <Header userType="Admin" />
@@ -332,6 +332,6 @@ export default function AddEmployee() {
         message="Please log in as an admin to access this page."
         userType="Employee"
       />
-    </div>
+    </>
   );
 }

@@ -8,6 +8,7 @@ import Logout from "./components/Logout/Logout";
 import EditEmployee from "./components/EditEmployee/EditEmployee";
 import EmployeeHome from "./components/EmployeeHome/EmployeeHome";
 import ViewEmployee from "./components/ViewEmployee/ViewEmployee";
+import AddTimesheet from "./components/AddTimesheet/AddTimesheet";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/editEmployee" element={<EditEmployee />} />
         <Route path="/viewEmployee" element={<ViewEmployee />} />
         <Route path="/employeeHome" element={<EmployeeHome />} />
+        <Route path="/addTimesheet" element={<AddTimesheet />} />
         <Route path="/logout" element={<Logout />} />
       </Routes>
     </>

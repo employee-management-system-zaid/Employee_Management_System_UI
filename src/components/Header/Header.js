@@ -12,27 +12,16 @@ function Header(props) {
           {props.userType === "Admin" && (
             <>
               <li className={styles.navItem}>
-                <NavLink
-                  className={styles.navLink}
-                  to="/"
-                  state={props.userType}
-                >
-                  Home
-                </NavLink>
+                <NavLink className={styles.navLink} to="/" state={props.userType}>Home</NavLink>
               </li>
               <li className={styles.navItem}>
-                <NavLink
-                  className={styles.navLink}
-                  to="/addEmployee"
-                  state={props.userType}
-                >
-                  Add Employee
-                </NavLink>
+                <NavLink className={styles.navLink} to="/addEmployee" state={props.userType}>Add Employee</NavLink>
               </li>
               <li className={styles.navItem}>
-                <NavLink className={styles.navLink} to="/logout">
-                  Logout
-                </NavLink>
+                <NavLink className={styles.navLink} to="/addTimesheet" state={props.userType}>Add Timesheet</NavLink>
+              </li>
+              <li className={styles.navItem}>
+                <NavLink className={styles.navLink} to="/logout">Logout</NavLink>
               </li>
             </>
           )}
@@ -40,18 +29,10 @@ function Header(props) {
           {props.userType !== "Admin" && (
             <>
               <li className={styles.navItem}>
-                <NavLink
-                  className={styles.navLink}
-                  to="/employeeHome"
-                  state={props.userType}
-                >
-                  Home
-                </NavLink>
+                <NavLink className={styles.navLink} to="/employeeHome" state={props.userType}>Home</NavLink>
               </li>
               <li className={styles.navItem}>
-                <NavLink className={styles.navLink} to="/logout">
-                  Logout
-                </NavLink>
+                <NavLink className={styles.navLink} to="/logout">Logout</NavLink>
               </li>
             </>
           )}

@@ -105,13 +105,13 @@ function Home() {
                           Edit
                         </button>
                         <button
-                          className="btn btn-outline-danger"
+                          className="btn btn-outline-danger mr-2"
                           onClick={() => handleDelete(item._id)}
                         >
                           Delete
                         </button>
                         <button
-                          className="btn btn-outline-danger"
+                          className="btn btn-outline-primary"
                           onClick={() => handleView(item)}
                         >
                           View

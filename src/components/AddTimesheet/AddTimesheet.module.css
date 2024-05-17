@@ -1,36 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.customTable {
+  width: 80%;
+  margin: 20px auto;
+}
+
 .formContainer {
-    max-width: 600px;
-    margin: 20px auto; /* Add spacing around the form */
-    padding: 20px 40px; /* Add horizontal padding */
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  .formGroup {
-    margin-bottom: 20px; /* Add spacing between form groups */
-  }
-  
-  .customInput {
-    width: 100%;
-  }
-  
-  .errorMsg {
-    color: red;
-  }
-  
-  .buttonGroup {
-    margin-top: 20px; /* Add spacing above buttons */
-  }
-  
-  .saveButton,
-  .cancelButton {
-    margin-right: 10px; /* Add spacing between buttons */
-  }
-  
-  @media (max-width: 768px) {
-    .formContainer {
-      max-width: 400px;
-      margin: 30px; /* Adjust padding for smaller screens */
-    }
-  }
-  
+  align-items: center;
+  margin: 20px auto;
+  width: 80%;
+}
+
+.errorMsg {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.customInput {
+  margin-right: 10px;
+}

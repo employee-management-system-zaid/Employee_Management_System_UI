@@ -311,9 +311,16 @@ export default function AddEmployee() {
             <div className={`text-center ${styles.buttonGroup}`}>
               <input
                 type="submit"
-                value="Create"
+                value="Add"
                 className={`btn btn-outline-primary ${styles.saveButton}`}
               />
+               <button
+                type="button"
+                onClick={clearData}
+                className={`btn btn-outline-dark ${styles.cancelButton}`}
+              >
+                Clear
+              </button>
               <button
                 type="button"
                 onClick={handleCancel}

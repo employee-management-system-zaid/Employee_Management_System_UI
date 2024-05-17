@@ -99,13 +99,13 @@ function Home() {
                       <td>{item.employeeType}</td>
                       <td>
                         <button
-                          className="btn btn-outline-dark mr-2"
+                          className="btn btn-outline-dark me-2"
                           onClick={() => handleEdit(item)}
                         >
                           Edit
                         </button>
                         <button
-                          className="btn btn-outline-danger mr-2"
+                          className="btn btn-outline-danger me-2"
                           onClick={() => handleDelete(item._id)}
                         >
                           Delete

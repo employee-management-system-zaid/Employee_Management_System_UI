@@ -64,11 +64,19 @@ function Signup() {
 
       try {
         const response = await axios.post("/signup", userData);
-
         if (response.data === "Employee Already Exists") {
           clearData();
           alert("Employee Already Exists");
-        } else if (response.data === "Employee created successfully") {
+        } 
+        else if (response.data === "No Employee found") {
+          clearData();
+          alert("No Employee found");
+        }
+        else if (response.data === "Please enter the details you gave to the Employer") {
+          clearData();
+          alert("Please enter the details you gave to the Employer");
+        }
+        else if (response.data === "Employee created successfully") {
           path("/login");
         }
       } catch (error) {

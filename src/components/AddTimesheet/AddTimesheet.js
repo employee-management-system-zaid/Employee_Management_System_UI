@@ -8,12 +8,14 @@ import OnlyAdminDialogBox from "../OnlyAdminDialogBox/OnlyAdminDialogBox";
 function AddTimesheet() {
     const path = useNavigate();
     const [employees, setEmployees] = useState([]);
+    const [isTimesheet, setIsTimesheet] = useState(true);
     const [isEmployee, setIsEmployee] = useState(true);
     const [day, setDay] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [selectedEmployee, setSelectedEmployee] = useState(""); 
+    const [employeeId, setEmployeeId] = useState(""); 
     const [timesheet, setTimesheet] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isNewTimesheetAdded, setIsNewTimesheetAdded] = useState(false);
     const [formErrors, setFormErrors] = useState({});
     const { state } = useLocation(); // to get the data passed when clicked on Add Timesheet from navlink in Header
@@ -27,13 +29,21 @@ function AddTimesheet() {
             const response = await responseData.json();
             if (response.message === "Unauthorized") {
               path("/login");
-            } else if (response.message === "User is Authenticated" && response.user.userType !== "Admin") {
+            } 
+            else if (response.message === "User is Authenticated" && response.user.userType !== "Admin") {
               setOpenOnlyAdminDialog(true);
-            } else if (response.message === "User is Authenticated" && response.user.userType === "Admin") {
+            } 
+            else if (response.message === "User is Authenticated" && response.user.userType === "Admin") {
                 const response = await axios.get("/getTimesheet");
-                if (response) {
-                  setTimesheet(response.data.allTimesheets);
-                }
+                   if(response.data.message === "No Timesheet")
+                    {
+                      setLoading(false);
+                      setIsTimesheet(false);
+                    }
+                    else if(response.data.allTimesheets){
+                      setTimesheet(response.data.allTimesheets);
+                      setLoading(false);
+                    }
             }
           } catch (error) {
             console.error("Error:", error);
@@ -58,7 +68,7 @@ function AddTimesheet() {
         if (!day) errors.day = "Day is required.";
         if (!startTime) errors.startTime = "Start Time is required.";
         if (!endTime) errors.endTime = "End Time is required.";
-        if (!selectedEmployee) errors.selectedEmployee = "You must select an employee.";
+        if (!employeeId) errors.employeeId = "You must select an employee.";
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
       };
@@ -67,7 +77,7 @@ function AddTimesheet() {
         setDay("");
         setStartTime("");
         setEndTime("");
-        setSelectedEmployee("");
+        setEmployeeId("");
         setFormErrors({});
       };
 
@@ -82,16 +92,16 @@ function AddTimesheet() {
               day,
               startTime,
               endTime,
-              selectedEmployee,
+              employeeId: employeeId,
             };
             try {
               const response = await axios.post("/addTimesheet", timesheet);
               if (response.data.message === "Same Employee Already added for same time") {
                 clearData();
                 alert("Same Employee Already added for same time");
-              } else if (response.data.message === "Timesheet added successfully") {
+              } else if (response.data.message === "Timesheet added successful") {
+                clearData();
                 setIsNewTimesheetAdded(true);
-                setIsNewTimesheetAdded(false);
               }
             } catch (error) {
               console.error("Error:", error);
@@ -105,105 +115,112 @@ function AddTimesheet() {
      {!openOnlyAdminDialog && (
         <div>
             <Header userType="Admin" />
-            <div className={styles.container}>
-                <h2 className="text-center">Timesheet Entries</h2>
-                <table className={`table table-bordered ${styles.customTable}`}>
-                    <thead className="thead-dark">
-                        <tr>
-                            <th>Day</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Employee</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timesheet.map((timesheet) => (
-                            <tr key={timesheet.employeeId}>
-                                <td>{timesheet.date}</td>
-                                <td>{timesheet.startTime}</td>
-                                <td>{timesheet.endTime}</td>
-                                <td>{timesheet.employeeName}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className={styles.container}>
+        <h2 className="text-center">Timesheet Entries</h2>
+        {!isTimesheet && <h5>No Timesheet to display</h5>}
+        {isTimesheet && (
+        <table className={`table table-bordered ${styles.customTable}`}>
+            <thead className="thead-dark">
+                <tr>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Employee</th>
+                </tr>
+            </thead>
+            <tbody>
+                {timesheet.map((timesheet) => (
+                    <tr key={timesheet.employeeId}>
+                        <td>{timesheet.date}</td>
+                        <td>{timesheet.startTime}</td>
+                        <td>{timesheet.endTime}</td>
+                        <td>{timesheet.employeeName}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>)}
 
-                <form onSubmit={submit} className={`d-flex ${styles.formContainer}`}>
-                    <div className="form-group me-2">
-                        <input
-                            type="date"
-                            name="day"
-                            id="day"
-                            className="form-control"
-                            value={day}
-                            placeholder="Day"
-                            onChange={(e) => setDay(e.target.value)}
-                        />
-                        {formErrors.day && (
-                            <p className={styles.errorMsg}>{formErrors.day}</p>
-                        )}
-                    </div>
-
-                    <div className="form-group me-2">
-                        <input
-                            type="time"
-                            name="startTime"
-                            id="startTime"
-                            className="form-control"
-                            value={startTime}
-                            placeholder="Start Time"
-                            onChange={(e) => setStartTime(e.target.value)}
-                        />
-                        {formErrors.startTime && (
-                            <p className={styles.errorMsg}>{formErrors.startTime}</p>
-                        )}
-                    </div>
-
-                    <div className="form-group me-2">
-                        <input
-                            type="time"
-                            name="endTime"
-                            id="endTime"
-                            className="form-control"
-                            value={endTime}
-                            placeholder="End Time"
-                            onChange={(e) => setEndTime(e.target.value)}
-                        />
-                        {formErrors.endTime && (
-                            <p className={styles.errorMsg}>{formErrors.endTime}</p>
-                        )}
-                    </div>
-
-                    <div className="form-group me-2">
-                        <select
-                            name="selectedEmployee"
-                            id="selectedEmployee"
-                            value={selectedEmployee}
-                            onClick={handleSelectEmployee}
-                            onChange={(e) => setSelectedEmployee(e.target.value)}
-                            className="form-control"
-                        >
-                            <option value="" disabled>
-                                Select Employee
-                            </option>
-                            {employees.map((employee) => (
-                                <option key={employee._id} value={employee._id}>
-                                    {employee.firstName + " " + employee.lastName}
-                                </option>
-                            ))}
-                        </select>
-                        {formErrors.selectedEmployee && (
-                            <p className={styles.errorMsg}>{formErrors.selectedEmployee}</p>
-                        )}
-                    </div>
-
-                    <div className="d-flex align-items-center">
-                        <button type="submit" className="btn btn-outline-primary me-2">Add</button>
-                        <button type="button" onClick={clearData} className="btn btn-outline-dark me-2">Clear</button>
-                        <button type="button" onClick={handleCancel} className="btn btn-outline-danger ">Cancel</button>
-                    </div>
-                </form>
+        <form onSubmit={submit} className={`d-flex ${styles.formContainer}`}>
+            <div className="form-group me-2">
+                <input
+                    type="date"
+                    name="day"
+                    id="day"
+                    className="form-control"
+                    value={day}
+                    placeholder="Day"
+                    onChange={(e) => setDay(e.target.value)}
+                />
+                {formErrors.day && (
+                    <p className={styles.errorMsg}>{formErrors.day}</p>
+                )}
             </div>
+
+            <div className="form-group me-2">
+                <input
+                    type="time"
+                    name="startTime"
+                    id="startTime"
+                    className="form-control"
+                    value={startTime}
+                    placeholder="Start Time"
+                    onChange={(e) => setStartTime(e.target.value)}
+                />
+                {formErrors.startTime && (
+                    <p className={styles.errorMsg}>{formErrors.startTime}</p>
+                )}
+            </div>
+
+            <div className="form-group me-2">
+                <input
+                    type="time"
+                    name="endTime"
+                    id="endTime"
+                    className="form-control"
+                    value={endTime}
+                    placeholder="End Time"
+                    onChange={(e) => setEndTime(e.target.value)}
+                />
+                {formErrors.endTime && (
+                    <p className={styles.errorMsg}>{formErrors.endTime}</p>
+                )}
+            </div>
+
+            <div className="form-group me-2">
+                <select
+                    name="employeeId"
+                    id="employeeId"
+                    value={employeeId}
+                    onClick={handleSelectEmployee}
+                    onChange={(e) => setEmployeeId(e.target.value)}
+                    className="form-control"
+                >
+                    <option value="" disabled>
+                        Select Employee
+                    </option>
+                    {employees.map((employee) => (
+                        <option key={employee._id} value={employee.employeeId}>
+                            {employee.firstName + " " + employee.lastName}
+                        </option>
+                    ))}
+                </select>
+                {formErrors.employeeId && (
+                    <p className={styles.errorMsg}>{formErrors.employeeId}</p>
+                )}
+            </div>
+
+            <div className="d-flex align-items-center">
+                <button type="submit" className="btn btn-outline-primary me-2">Add</button>
+                <button type="button" onClick={clearData} className="btn btn-outline-dark me-2">Clear</button>
+                <button type="button" onClick={handleCancel} className="btn btn-outline-danger ">Cancel</button>
+            </div>
+        </form>
+    </div>
+      )}
+            
         </div>
      )}
      <OnlyAdminDialogBox

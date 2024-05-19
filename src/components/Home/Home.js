@@ -21,14 +21,12 @@ function Home() {
           path("/login");
         } else if (response.data.message === "No Employees") {
           setLoading(false);
+          setIsEmployee(false);
         } else if (response.data.employees) {
           console.log("No of employees ", response.data.employees);
           setEmployees(response.data.employees);
           console.log(response.data.employees);
           setLoading(false);
-          if (response.data.employees.length <= 0) {
-            setIsEmployee(false);
-          }
         }
       } catch (error) {
         console.error("Error:", error);

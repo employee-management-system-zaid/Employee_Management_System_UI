@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .customTable {
+    width: 80%;
+    margin: 20px auto;
+  }
+  
+  .formContainer {
+    align-items: center;
+    margin: 20px auto;
+    width: 80%;
+  }
+  
+  .errorMsg {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .customInput {
+    margin-right: 10px;
+  }
+  

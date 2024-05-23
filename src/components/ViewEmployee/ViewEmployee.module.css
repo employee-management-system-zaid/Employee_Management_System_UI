@@ -1,0 +1,41 @@
+.mainContainer {
+    margin-top: 40px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .cardHeader {
+    text-align: center;
+  }
+  
+  .cardTitle {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .cardBody {
+    padding: 20px;
+  }
+  
+  .cardText {
+    margin: 10px 0;
+  }
+  
+  .cardText span {
+    font-weight: bold;
+    display: inline-block;
+    width: 150px;
+  }
+  
+  .cardFooter {
+    background-color: #f8f9fa;
+    border-top: 1px solid #ccc;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 10px;
+  }
+  

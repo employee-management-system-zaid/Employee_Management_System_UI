@@ -122,6 +122,7 @@ function AddTimesheet() {
         <h2 className="text-center">Timesheet Entries</h2>
         {!isTimesheet && <h5>No Timesheet to display</h5>}
         {isTimesheet && (
+        <div className={`container mt-4 mb-5 ${styles.mainContainer}`}>
         <table className={`table table-bordered ${styles.customTable}`}>
             <thead className="thead-dark">
                 <tr>
@@ -141,7 +142,8 @@ function AddTimesheet() {
                     </tr>
                 ))}
             </tbody>
-        </table>)}
+        </table>
+        </div>)}
 
         <form onSubmit={submit} className={`d-flex ${styles.formContainer}`}>
             <div className="form-group me-2">

@@ -1,5 +1,6 @@
 .headerContainer {
-  background-color: #00bfb2;
+  /* background-color: #00bfb2; */
+  background-color: #d6d2c4;
   padding: 5px;
 }
 
@@ -24,5 +25,6 @@
 
 .navLink:hover {
   background-color: #000;
-  color: #00bfb2;
+  /* color: #00bfb2; */
+  color: #d6d2c4;
 }

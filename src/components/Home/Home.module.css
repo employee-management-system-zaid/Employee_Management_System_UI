@@ -1,18 +1,25 @@
-/* Home.module.css */
-
-/* Custom styles for table headers */
-.customTable th {
-  text-align: center;
-}
-
-/* Custom styles for table rows */
-.customTable td {
-  text-align: center;
-}
-
-/* Custom styles for "No Employees to display" message */
-.customTable h5 {
-  color: #555;
-  text-align: center;
+.mainContainer {
   margin-top: 20px;
+}
+
+.customTable {
+  margin-top: 20px;
+}
+
+.filterContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filterLabel {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.3rem;
 }

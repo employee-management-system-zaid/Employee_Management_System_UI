@@ -10,7 +10,27 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [isEmployee, setIsEmployee] = useState(true);
   const [reload, setReload] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState("All");
+  const [currentType, setCurrentType] = useState("All");
+  const [currentDepartment, setCurrentDepartment] = useState("All");
+  const [filterTitle, setFilterTitle] = useState("All");
+  const [filterType, setFilterType] = useState("All");
+  const [filterDepartment, setFilterDepartment] = useState("All");
   const { state } = useLocation(); // to get the data passed while logging in
+
+  const titles = ["All", "Employee", "VP", "Manager", "Director"];
+  const departments = ["All", "IT", "Marketing", "Engineering", "HR"];
+  const employmentTypes = ["All", "FullTime", "PartTime", "Contract", "Seasonal"];
+
+
+  // Declare filteredEmployees here
+  const filteredEmployees = employees.filter((employee) => {
+    return (
+      (filterTitle === "All" || employee.title === filterTitle) &&
+      (filterType === "All" || employee.employeeType === filterType) &&
+      (filterDepartment === "All" || employee.department === filterDepartment)
+    );
+  });
 
   useEffect(() => {
     console.log("In Home Page ", state);
@@ -34,7 +54,9 @@ function Home() {
       }
     };
     fetchData();
-  }, [reload]);
+    setIsEmployee(filteredEmployees.length > 0);
+  }, [reload, state, path, employees, filterTitle, filterType, filterDepartment]);
+  
 
   const handleEdit = (item) => {
     path("/editEmployee", { state: item });
@@ -62,6 +84,31 @@ function Home() {
     }
   };
 
+  // const filteredEmployees = employees.filter((employee) => {
+  //   return (
+  //     (filterTitle === "All" || employee.title === filterTitle) &&
+  //     (filterType === "All" || employee.employeeType === filterType) &&
+  //     (filterDepartment === "All" || employee.department === filterDepartment)
+  //   );
+  // });
+
+ 
+
+  const handleFilter = () => {
+    setFilterTitle(currentTitle);
+    setFilterType(currentType);
+    setFilterDepartment(currentDepartment);
+  };
+
+  const handleClear = () => {
+    setCurrentTitle("All");
+    setCurrentType("All");
+    setCurrentDepartment("All");
+    setFilterTitle("All");
+    setFilterType("All");
+    setFilterDepartment("All");
+  };
+
   return (
     <>
       <Header userType={state} />
@@ -70,6 +117,61 @@ function Home() {
       ) : (
         <div>
           <div className={`container mt-4 mb-5 ${styles.mainContainer}`}>
+            <div className="row mb-4">
+              <div className="col-md-3">
+                <label className={styles.filterLabel} htmlFor="titleFilter">Title:</label>
+                <select
+                  id="titleFilter"
+                  className="form-select"
+                  value={currentTitle}
+                  onChange={(e) => setCurrentTitle(e.target.value)}
+                >
+                  {titles.map((title) => (
+                    <option key={title} value={title}>
+                      {title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-3">
+                <label className={styles.filterLabel} htmlFor="typeFilter">Employment Type:</label>
+                <select
+                  id="typeFilter"
+                  className="form-select"
+                  value={currentType}
+                  onChange={(e) => setCurrentType(e.target.value)}
+                >
+                  {employmentTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-3">
+                <label className={styles.filterLabel} htmlFor="departmentFilter">Department:</label>
+                <select
+                  id="departmentFilter"
+                  className="form-select"
+                  value={currentDepartment}
+                  onChange={(e) => setCurrentDepartment(e.target.value)}
+                >
+                  {departments.map((department) => (
+                    <option key={department} value={department}>
+                      {department}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-3 d-flex align-items-end">
+                <button className="btn btn-outline-primary me-2" onClick={handleFilter}>
+                  Filter
+                </button>
+                <button className="btn btn-outline-danger me-2" onClick={handleClear}>
+                  Clear
+                </button>
+              </div>
+            </div>
             {!isEmployee && <h5>No Employees to display</h5>}
             {isEmployee && (
               <table className={`table table-bordered ${styles.customTable}`}>
@@ -85,7 +187,7 @@ function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  {employees.map((item, index) => (
+                  {filteredEmployees.map((item) => (
                     <tr key={item._id}>
                       <td>
                         {item.firstName} {item.lastName}

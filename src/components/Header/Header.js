@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./Header.module.css";
 
 function Header(props) {
-  console.log("In Header ", props.userType);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className={`headerContainer ${styles.headerContainer}`}>
       <h2>Employee Management System</h2>
-      <nav>
+      <nav className={`${styles.nav} ${isOpen ? styles.openMenu : ""}`}>
+        <div className={styles.menuIcon} onClick={toggleMenu}>
+          <div className={styles.iconLine}></div>
+          <div className={styles.iconLine}></div>
+          <div className={styles.iconLine}></div>
+        </div>
+        {isOpen && (
+          <div className={styles.closeIcon} onClick={toggleMenu}>
+            X
+          </div>
+        )}
         <ul className={styles.navList}>
           {props.userType === "Admin" && (
             <>

@@ -22,16 +22,6 @@ function Home() {
   const departments = ["All", "IT", "Marketing", "Engineering", "HR"];
   const employmentTypes = ["All", "FullTime", "PartTime", "Contract", "Seasonal"];
 
-
-  // Declare filteredEmployees here
-  const filteredEmployees = employees.filter((employee) => {
-    return (
-      (filterTitle === "All" || employee.title === filterTitle) &&
-      (filterType === "All" || employee.employeeType === filterType) &&
-      (filterDepartment === "All" || employee.department === filterDepartment)
-    );
-  });
-
   useEffect(() => {
     console.log("In Home Page ", state);
     const fetchData = async () => {
@@ -45,7 +35,6 @@ function Home() {
         } else if (response.data.employees) {
           console.log("No of employees ", response.data.employees);
           setEmployees(response.data.employees);
-          console.log(response.data.employees);
           setLoading(false);
         }
       } catch (error) {
@@ -54,9 +43,18 @@ function Home() {
       }
     };
     fetchData();
+  }, [reload, state, path]);
+
+  useEffect(() => {
+    const filteredEmployees = employees.filter((employee) => {
+      return (
+        (filterTitle === "All" || employee.title === filterTitle) &&
+        (filterType === "All" || employee.employeeType === filterType) &&
+        (filterDepartment === "All" || employee.department === filterDepartment)
+      );
+    });
     setIsEmployee(filteredEmployees.length > 0);
-  }, [reload, state, path, employees, filterTitle, filterType, filterDepartment]);
-  
+  }, [employees, filterTitle, filterType, filterDepartment]);
 
   const handleEdit = (item) => {
     path("/editEmployee", { state: item });
@@ -84,16 +82,6 @@ function Home() {
     }
   };
 
-  // const filteredEmployees = employees.filter((employee) => {
-  //   return (
-  //     (filterTitle === "All" || employee.title === filterTitle) &&
-  //     (filterType === "All" || employee.employeeType === filterType) &&
-  //     (filterDepartment === "All" || employee.department === filterDepartment)
-  //   );
-  // });
-
- 
-
   const handleFilter = () => {
     setFilterTitle(currentTitle);
     setFilterType(currentType);
@@ -108,6 +96,14 @@ function Home() {
     setFilterType("All");
     setFilterDepartment("All");
   };
+
+  const filteredEmployees = employees.filter((employee) => {
+    return (
+      (filterTitle === "All" || employee.title === filterTitle) &&
+      (filterType === "All" || employee.employeeType === filterType) &&
+      (filterDepartment === "All" || employee.department === filterDepartment)
+    );
+  });
 
   return (
     <>
@@ -174,53 +170,75 @@ function Home() {
             </div>
             {!isEmployee && <h5>No Employees to display</h5>}
             {isEmployee && (
-              <table className={`table table-bordered ${styles.customTable}`}>
-                <thead className="thead-dark">
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Title</th>
-                    <th>Department</th>
-                    <th>Employee Type</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredEmployees.map((item) => (
-                    <tr key={item._id}>
-                      <td>
-                        {item.firstName} {item.lastName}
-                      </td>
-                      <td>{item.email}</td>
-                      <td>{item.phoneNumber}</td>
-                      <td>{item.title}</td>
-                      <td>{item.department}</td>
-                      <td>{item.employeeType}</td>
-                      <td>
-                        <button
-                          className="btn btn-outline-dark me-2"
-                          onClick={() => handleEdit(item)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-outline-danger me-2"
-                          onClick={() => handleDelete(item._id)}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={() => handleView(item)}
-                        >
-                          View
-                        </button>
-                      </td>
+              <>
+                {/* Desktop Table */}
+                <table className={`table table-bordered ${styles.customTable}`}>
+                  <thead className="thead-dark">
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Title</th>
+                      <th>Department</th>
+                      <th>Employee Type</th>
+                      <th>Actions</th>
                     </tr>
+                  </thead>
+                  <tbody>
+                    {filteredEmployees.map((item) => (
+                      <tr key={item._id}>
+                        <td>
+                          {item.firstName} {item.lastName}
+                        </td>
+                        <td>{item.email}</td>
+                        <td>{item.phoneNumber}</td>
+                        <td>{item.title}</td>
+                        <td>{item.department}</td>
+                        <td>{item.employeeType}</td>
+                        <td>
+                          <button
+                            className="btn btn-outline-dark me-2"
+                            onClick={() => handleEdit(item)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="btn btn-outline-danger me-2"
+                            onClick={() => handleDelete(item._id)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={() => handleView(item)}
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                {/* Mobile Cards */}
+                <div className="row d-md-none">
+                  {filteredEmployees.map((item) => (
+                    <div key={item._id} className={`col-12 ${styles.employeeCard}`}>
+                      <div className={styles.cardText}><strong>Name:</strong> {item.firstName} {item.lastName}</div>
+                      <div className={styles.cardText}><strong>Email:</strong> {item.email}</div>
+                      <div className={styles.cardText}><strong>Phone Number:</strong> {item.phoneNumber}</div>
+                      <div className={styles.cardText}><strong>Title:</strong> {item.title}</div>
+                      <div className={styles.cardText}><strong>Department:</strong> {item.department}</div>
+                      <div className={styles.cardText}><strong>Employee Type:</strong> {item.employeeType}</div>
+                      <div className={styles.cardActions}>
+                        <button className="btn btn-outline-dark me-2" onClick={() => handleEdit(item)}>Edit</button>
+                        <button className="btn btn-outline-danger me-2" onClick={() => handleDelete(item._id)}>Delete</button>
+                        <button className="btn btn-outline-primary" onClick={() => handleView(item)}>View</button>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
+                </div>
+              </>
             )}
           </div>
         </div>

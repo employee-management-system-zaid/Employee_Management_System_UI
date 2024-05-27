@@ -1,5 +1,6 @@
+/* Add this to your Header.module.css */
+
 .headerContainer {
-  /* background-color: #00bfb2; */
   background-color: #d6d2c4;
   padding: 5px;
 }
@@ -25,6 +26,51 @@
 
 .navLink:hover {
   background-color: #000;
-  /* color: #00bfb2; */
   color: #d6d2c4;
+}
+
+.menuIcon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.closeIcon {
+  display: none;
+  cursor: pointer;
+}
+
+.iconLine {
+  width: 25px;
+  height: 3px;
+  background-color: #000;
+  margin: 3px 0;
+}
+
+@media (max-width: 768px) {
+  .navList {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navItem {
+    margin: 10px 0;
+  }
+
+  .menuIcon {
+    display: flex;
+  }
+
+  .openMenu .menuIcon {
+    display: none;
+  }
+
+  .openMenu .closeIcon {
+    display: block;
+  }
+
+  .openMenu .navList {
+    display: flex;
+  }
 }

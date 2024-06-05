@@ -86,7 +86,7 @@ function ViewEmployee() {
                     <Link
                       to="/"
                       state="Admin"
-                      className={`btn btn-outline-primary ${styles.btnOutlinePrimary}`}
+                      className={`btn btn-outline-dark ${styles.btnOutlinePrimary}`}
                     >
                       Back
                     </Link>

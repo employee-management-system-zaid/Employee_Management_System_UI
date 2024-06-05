@@ -1,8 +1,22 @@
-/* Add this to your Header.module.css */
-
 .headerContainer {
-  background-color: #d6d2c4;
+  background-color: #00bfb2;
   padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 80px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Add some spacing */
+}
+
+.nav {
+  display: flex;
+  justify-content: center; /* Center the navigation links */
+  align-items: center;
+  flex: 1; /* Make the nav take up the remaining space */
 }
 
 .navList {
@@ -10,6 +24,7 @@
   justify-content: center;
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .navItem {
@@ -48,6 +63,11 @@
 }
 
 @media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .navList {
     display: none;
     flex-direction: column;
@@ -60,6 +80,8 @@
 
   .menuIcon {
     display: flex;
+    position: absolute;
+    right: 20px; /* Move the menu icon to the right */
   }
 
   .openMenu .menuIcon {
@@ -68,6 +90,8 @@
 
   .openMenu .closeIcon {
     display: block;
+    position: absolute;
+    right: 20px; /* Ensure the close icon is also on the right */
   }
 
   .openMenu .navList {

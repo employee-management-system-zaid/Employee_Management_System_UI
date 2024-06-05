@@ -11,7 +11,9 @@ function Header(props) {
 
   return (
     <div className={`headerContainer ${styles.headerContainer}`}>
-      <h2>Employee Management System</h2>
+      <div className={styles.logoContainer}>
+        <img src="/logo-png.png" alt="Logo" className={styles.logo} />
+      </div>
       <nav className={`${styles.nav} ${isOpen ? styles.openMenu : ""}`}>
         <div className={styles.menuIcon} onClick={toggleMenu}>
           <div className={styles.iconLine}></div>

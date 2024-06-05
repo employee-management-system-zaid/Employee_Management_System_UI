@@ -1,28 +1,42 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .customTable {
-    width: 80%;
-    margin: 20px auto;
-  }
-  
-  .formContainer {
-    align-items: center;
-    margin: 20px auto;
-    width: 80%;
-  }
-  
-  .errorMsg {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  
-  .customInput {
-    margin-right: 10px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.mainContainer {
+  width: 100%;
+}
+
+.tableContainer {
+  width: 80%;
+  margin: 0 auto; /* Center the table horizontally */
+}
+
+.customTable {
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.customTable th,
+.customTable td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.customTable th {
+  background-color: #343a40;
+  color: white;
+  font-weight: bold;
+}
+
+.customTable tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.customTable tbody tr:hover {
+  background-color: #e2e2e2;
+}

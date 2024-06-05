@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Header from "../Header/Header";
-import styles from './EmployeeHome.module.css'
+import styles from './EmployeeHome.module.css';
 
 function EmployeeHome() {
   const [loading, setLoading] = useState(true);
@@ -31,35 +31,39 @@ function EmployeeHome() {
       }
     };
     fetchData();
-  }, []);
+  }, [path, state]);
+
   return (
     <>
       <Header userType={state} />
       {loading ? (
-        <p>Loadin...</p>
+        <p>Loading...</p>
       ) : (
         <div>
           <div className={`container mt-4 mb-5 ${styles.mainContainer}`}>
-          {!isTimesheet && <h5>No Timesheet to display</h5>}
-        {isTimesheet && (
-          <table className={`table table-bordered ${styles.customTable}`}>
-            <thead className="thead-dark">
-                <tr>
-                    <th>Day</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {timesheet.map((timesheet) => (
-                    <tr key={timesheet.employeeId}>
-                        <td>{timesheet.day}</td>
-                        <td>{timesheet.startTime}</td>
-                        <td>{timesheet.endTime}</td>
+            {!isTimesheet && <h5>No Timesheet to display</h5>}
+            {isTimesheet && (
+              <div className={styles.tableContainer}>
+                <table className={`table ${styles.customTable}`}>
+                  <thead className="thead-dark">
+                    <tr>
+                      <th>Date</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>)}
+                  </thead>
+                  <tbody>
+                    {timesheet.map((entry, index) => (
+                      <tr key={index}>
+                        <td>{entry.day}</td>
+                        <td>{entry.startTime}</td>
+                        <td>{entry.endTime}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -53,6 +53,7 @@
 .closeIcon {
   display: none;
   cursor: pointer;
+  font-size: 1.8rem;
 }
 
 .iconLine {

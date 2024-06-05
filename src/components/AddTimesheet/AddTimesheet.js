@@ -6,109 +6,109 @@ import Header from "../Header/Header";
 import OnlyAdminDialogBox from "../OnlyAdminDialogBox/OnlyAdminDialogBox";
 
 function AddTimesheet() {
-    const path = useNavigate();
-    const [employees, setEmployees] = useState([]);
-    const [isTimesheet, setIsTimesheet] = useState(true);
-    const [isEmployee, setIsEmployee] = useState(true);
-    const [day, setDay] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [employeeId, setEmployeeId] = useState(""); 
-    const [timesheet, setTimesheet] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [isNewTimesheetAdded, setIsNewTimesheetAdded] = useState(false);
-    const [formErrors, setFormErrors] = useState({});
-    const { state } = useLocation(); // to get the data passed when clicked on Add Timesheet from navlink in Header
-    const [openOnlyAdminDialog, setOpenOnlyAdminDialog] = useState(false);
+  const path = useNavigate();
+  const [employees, setEmployees] = useState([]);
+  const [isTimesheet, setIsTimesheet] = useState(true);
+  const [isEmployee, setIsEmployee] = useState(true);
+  const [day, setDay] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [employeeId, setEmployeeId] = useState(""); 
+  const [timesheet, setTimesheet] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isNewTimesheetAdded, setIsNewTimesheetAdded] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const { state } = useLocation(); // to get the data passed when clicked on Add Timesheet from navlink in Header
+  const [openOnlyAdminDialog, setOpenOnlyAdminDialog] = useState(false);
 
-    useEffect(() => {
-        console.log("Add Timesheet From State Before API call", state);
-        const fetchData = async () => {
-          try {
-            const responseData = await fetch("/checkAuth");
-            const response = await responseData.json();
-            if (response.message === "Unauthorized") {
-              path("/login");
-            } 
-            else if (response.message === "User is Authenticated" && response.user.userType !== "Admin") {
-              setOpenOnlyAdminDialog(true);
-            } 
-            else if (response.message === "User is Authenticated" && response.user.userType === "Admin") {
-                const response = await axios.get("/getTimesheet");
-                   if(response.data.message === "No Timesheet")
-                    {
-                      setLoading(false);
-                      setIsTimesheet(false);
-                    }
-                    else if(response.data.allTimesheets){
-                      setTimesheet(response.data.allTimesheets);
-                      setLoading(false);
-                    }
-            }
-          } catch (error) {
-            console.error("Error:", error);
-            alert("Something went wrong. Please try again.");
-          }
-        };
-        fetchData();
-      }, [path, state, isNewTimesheetAdded]);
+  useEffect(() => {
+    console.log("Add Timesheet From State Before API call", state);
+    const fetchData = async () => {
+      try {
+        const responseData = await fetch("/checkAuth");
+        const response = await responseData.json();
+        if (response.message === "Unauthorized") {
+          path("/login");
+        } 
+        else if (response.message === "User is Authenticated" && response.user.userType !== "Admin") {
+          setOpenOnlyAdminDialog(true);
+        } 
+        else if (response.message === "User is Authenticated" && response.user.userType === "Admin") {
+            const response = await axios.get("/getTimesheet");
+               if(response.data.message === "No Timesheet")
+                {
+                  setLoading(false);
+                  setIsTimesheet(false);
+                }
+                else if(response.data.allTimesheets){
+                  setTimesheet(response.data.allTimesheets);
+                  setLoading(false);
+                }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong. Please try again.");
+      }
+    };
+    fetchData();
+  }, [path, state, isNewTimesheetAdded]);
 
-      const handleSelectEmployee = async () => {
-        const result = await axios.get("/getEmployees");
-        if (result.data.employees) {
-            setEmployees(result.data.employees);
-            if (result.data.employees.length <= 0) {
-              setIsEmployee(false);
-            }
-          }
-      };
-
-      const validateForm = () => {
-        const errors = {};
-        if (!day) errors.day = "Day is required.";
-        if (!startTime) errors.startTime = "Start Time is required.";
-        if (!endTime) errors.endTime = "End Time is required.";
-        if (!employeeId) errors.employeeId = "You must select an employee.";
-        setFormErrors(errors);
-        return Object.keys(errors).length === 0;
-      };
-
-      const clearData = () => {
-        setDay("");
-        setStartTime("");
-        setEndTime("");
-        setEmployeeId("");
-        setFormErrors({});
-      };
-
-      const handleCancel = () => {
-        path("/", { state: "Admin" });
-      };
-
-      async function submit(e) {
-        e.preventDefault();
-        if (validateForm()) {
-            const timesheet = {
-              day,
-              startTime,
-              endTime,
-              employeeId: employeeId,
-            };
-            try {
-              const response = await axios.post("/addTimesheet", timesheet);
-              if (response.data.message === "Same Employee Already added for same time") {
-                clearData();
-                alert("Same Employee Already added for same time");
-              } else if (response.data.message === "Timesheet added successful") {
-                clearData();
-                setIsNewTimesheetAdded(true);
-              }
-            } catch (error) {
-              console.error("Error:", error);
-              alert("Something went wrong. Please try again.");
-            }
+  const handleSelectEmployee = async () => {
+    const result = await axios.get("/getEmployees");
+    if (result.data.employees) {
+        setEmployees(result.data.employees);
+        if (result.data.employees.length <= 0) {
+          setIsEmployee(false);
         }
       }
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    if (!day) errors.day = "Day is required.";
+    if (!startTime) errors.startTime = "Start Time is required.";
+    if (!endTime) errors.endTime = "End Time is required.";
+    if (!employeeId) errors.employeeId = "You must select an employee.";
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const clearData = () => {
+    setDay("");
+    setStartTime("");
+    setEndTime("");
+    setEmployeeId("");
+    setFormErrors({});
+  };
+
+  const handleCancel = () => {
+    path("/", { state: "Admin" });
+  };
+
+  async function submit(e) {
+    e.preventDefault();
+    if (validateForm()) {
+        const timesheet = {
+          day,
+          startTime,
+          endTime,
+          employeeId: employeeId,
+        };
+        try {
+          const response = await axios.post("/addTimesheet", timesheet);
+          if (response.data.message === "Same Employee Already added for same time") {
+            clearData();
+            alert("Same Employee Already added for same time");
+          } else if (response.data.message === "Timesheet added successful") {
+            clearData();
+            setIsNewTimesheetAdded(true);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Something went wrong. Please try again.");
+        }
+    }
+  }
 
   return (
     <>
@@ -145,8 +145,10 @@ function AddTimesheet() {
         </table>
         </div>)}
 
-        <form onSubmit={submit} className={`d-flex ${styles.formContainer}`}>
-            <div className="form-group me-2">
+        <form onSubmit={submit}>
+           <div className="text-center"> <h2>Add Timesheet</h2></div>
+           <div className={`d-flex ${styles.formContainer}`}>
+            <div className="form-group m-2">
                 <input
                     type="date"
                     name="day"
@@ -161,7 +163,7 @@ function AddTimesheet() {
                 )}
             </div>
 
-            <div className="form-group me-2">
+            <div className="form-group m-2">
                 <input
                     type="time"
                     name="startTime"
@@ -176,7 +178,7 @@ function AddTimesheet() {
                 )}
             </div>
 
-            <div className="form-group me-2">
+            <div className="form-group m-2">
                 <input
                     type="time"
                     name="endTime"
@@ -191,7 +193,7 @@ function AddTimesheet() {
                 )}
             </div>
 
-            <div className="form-group me-2">
+            <div className="form-group m-2">
                 <select
                     name="employeeId"
                     id="employeeId"
@@ -214,11 +216,12 @@ function AddTimesheet() {
                 )}
             </div>
 
-            <div className="d-flex align-items-center">
+            <div className={`d-flex align-items-center ${styles.buttonContainer}`}>
                 <button type="submit" className="btn btn-outline-primary me-2">Add</button>
                 <button type="button" onClick={clearData} className="btn btn-outline-dark me-2">Clear</button>
                 <button type="button" onClick={handleCancel} className="btn btn-outline-danger ">Cancel</button>
             </div>
+          </div>  
         </form>
     </div>
       )}
@@ -237,3 +240,4 @@ function AddTimesheet() {
 }
 
 export default AddTimesheet;
+

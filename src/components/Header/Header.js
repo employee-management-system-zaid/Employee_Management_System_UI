@@ -22,7 +22,7 @@ function Header(props) {
         </div>
         {isOpen && (
           <div className={styles.closeIcon} onClick={toggleMenu}>
-            X
+            <strong>X</strong>
           </div>
         )}
         <ul className={styles.navList}>
